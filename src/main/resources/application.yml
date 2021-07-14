@@ -3,7 +3,7 @@ micronaut:
     name: cardApiMicronaut
 datasources:
   default:
-    url: jdbc:postgresql://localhost:5432/card-api
+    url: jdbc:postgresql://localhost:5432/card-api-micronaut
     driverClassName: org.postgresql.Driver
     username: card-api
     password: 'card-api'
