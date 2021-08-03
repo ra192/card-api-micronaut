@@ -1,6 +1,5 @@
 package com.card.entity;
 
-import com.card.entity.enums.TransactionItemType;
 import io.micronaut.data.annotation.GeneratedValue;
 import io.micronaut.data.annotation.Id;
 import io.micronaut.data.annotation.MappedEntity;
@@ -17,11 +16,12 @@ public class TransactionItem {
     private Long amount;
 
     @Relation(value = Relation.Kind.MANY_TO_ONE)
-    private Account account;
+    private Account srcAccount;
+
+    @Relation(value = Relation.Kind.MANY_TO_ONE)
+    private Account destAccount;
 
     private LocalDateTime created;
-
-    private TransactionItemType type;
 
     private Card card;
 
@@ -30,11 +30,11 @@ public class TransactionItem {
 
     public TransactionItem() {
     }
-    public TransactionItem(Long amount, Account account, TransactionItemType type, Card card, Transaction transaction) {
+    public TransactionItem(Long amount, Account srcAccount, Account destAccount, Card card, Transaction transaction) {
         this.amount = amount;
-        this.account = account;
+        this.srcAccount = srcAccount;
+        this.destAccount=destAccount;
         this.created = LocalDateTime.now();
-        this.type = type;
         this.card = card;
         this.transaction=transaction;
     }
@@ -59,24 +59,24 @@ public class TransactionItem {
         return created;
     }
 
-    public Account getAccount() {
-        return account;
+    public Account getSrcAccount() {
+        return srcAccount;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setSrcAccount(Account srcAccount) {
+        this.srcAccount = srcAccount;
+    }
+
+    public Account getDestAccount() {
+        return destAccount;
+    }
+
+    public void setDestAccount(Account destAccount) {
+        this.destAccount = destAccount;
     }
 
     public void setCreated(LocalDateTime created) {
         this.created = created;
-    }
-
-    public TransactionItemType getType() {
-        return type;
-    }
-
-    public void setType(TransactionItemType type) {
-        this.type = type;
     }
 
     public Card getCard() {

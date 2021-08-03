@@ -55,7 +55,7 @@ public class CardController extends WithAuthMerchantController {
 
     @Post("/deposit")
     public TransactionDto deposit(@Header String authorization, @Valid @Body CreateCardTransactionDto requestObject)
-            throws TransactionException, CardException, MerchantException, TokenException {
+            throws TransactionException, CardException, MerchantException, TokenException, AccountException {
         logger.info("Card deposit method was called with params:");
         logger.info(requestObject.toString());
 
@@ -68,7 +68,7 @@ public class CardController extends WithAuthMerchantController {
 
     @Post("/withdraw")
     public TransactionDto withdraw(@Header String authorization, @Valid @Body CreateCardTransactionDto requestObject)
-            throws CardException, MerchantException, TokenException {
+            throws CardException, MerchantException, TokenException, AccountException {
         logger.info("Card withdraw method was called with params:");
         logger.info(requestObject.toString());
 

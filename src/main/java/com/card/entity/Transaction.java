@@ -28,11 +28,10 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(String orderId, TransactionType type, TransactionStatus status, List<TransactionItem> items) {
+    public Transaction(String orderId, TransactionType type, TransactionStatus status) {
         this.orderId = orderId;
         this.type = type;
         this.status = status;
-        this.items = items;
     }
 
     public Long getId() {

@@ -10,5 +10,6 @@ import java.util.Optional;
 
 @JdbcRepository(dialect = Dialect.POSTGRES)
 public interface TransactionItemRepository extends CrudRepository<TransactionItem, Long> {
-    Optional<Long> findSumAmountByAccount(Account account);
+    Optional<Long> findSumAmountBySrcAccount(Account account);
+    Optional<Long> findSumAmountByDestAccount(Account account);
 }

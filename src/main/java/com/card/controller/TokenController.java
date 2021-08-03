@@ -8,13 +8,10 @@ import com.card.service.exception.MerchantException;
 import com.card.service.exception.TokenException;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Post;
-import io.micronaut.scheduling.TaskExecutors;
-import io.micronaut.scheduling.annotation.ExecuteOn;
 
 import javax.validation.Valid;
 import java.security.NoSuchAlgorithmException;
 
-@ExecuteOn(TaskExecutors.IO)
 @Controller("/api/token")
 public class TokenController {
     private final MerchantService merchantService;
