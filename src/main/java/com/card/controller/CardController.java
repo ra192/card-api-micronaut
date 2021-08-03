@@ -68,7 +68,7 @@ public class CardController extends WithAuthMerchantController {
 
     @Post("/withdraw")
     public TransactionDto withdraw(@Header String authorization, @Valid @Body CreateCardTransactionDto requestObject)
-            throws CardException, MerchantException, TokenException, AccountException {
+            throws CardException, MerchantException, TokenException, AccountException, TransactionException {
         logger.info("Card withdraw method was called with params:");
         logger.info(requestObject.toString());
 

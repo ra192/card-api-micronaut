@@ -31,21 +31,32 @@ public class TransactionService {
         this.transactionFeeRepository = transactionFeeRepository;
     }
 
-    public Transaction deposit(Account srcAccount, Account destAccount, Account feeAccount, Long amount, TransactionType type, String orderId, Card card) {
+    public Transaction deposit(Account srcAccount, Account destAccount, Account feeAccount, Long amount, TransactionType type, String orderId, Card card) throws TransactionException {
+        final var feeAmount = calculateFee(amount, type, destAccount);
+        if (sumByAccount(srcAccount) - amount < 0)
+            throw new TransactionException("Account does not have enough funds");
+
         final var transaction = createTransaction(srcAccount, destAccount, amount, type, orderId, card);
-        createFeeItem(destAccount, feeAccount, amount,type, transaction);
+        if (feeAmount > 0)
+            transactionItemRepository.save(new TransactionItem(amount, destAccount, feeAccount, null, transaction));
 
         log.info("{} transaction was created", type);
 
         return transaction;
     }
 
+    public Transaction fund(Account srcAccount, Account destAccount, Long amount, TransactionType type, String orderId) {
+        return createTransaction(srcAccount, destAccount, amount, type, orderId, null);
+    }
+
     public Transaction withdraw(Account srcAccount, Account destAccount, Account feeAccount, Long amount, TransactionType type, String orderId, Card card) throws TransactionException {
-        if (sumByAccount(srcAccount) - amount < 0)
+        final var feeAmount = calculateFee(amount, type, srcAccount);
+        if (sumByAccount(srcAccount) - amount - feeAmount < 0)
             throw new TransactionException("Account does not have enough funds");
 
         final var transaction = createTransaction(srcAccount, destAccount, amount, type, orderId, card);
-        createFeeItem(destAccount, feeAccount, amount,type, transaction);
+        if (feeAmount > 0)
+            transactionItemRepository.save(new TransactionItem(amount, srcAccount, feeAccount, null, transaction));
 
         log.info("{} transaction was created", type);
 
@@ -60,14 +71,13 @@ public class TransactionService {
         return transaction;
     }
 
-    private Optional<TransactionItem> createFeeItem(Account srcAccount, Account destAccount, Long amount, TransactionType type,
-                                                    Transaction transaction) {
-        return transactionFeeRepository.findByTypeAndAccount(type, srcAccount).map(fee ->
-                new TransactionItem(amount * fee.getRate().longValue(), srcAccount, destAccount, null, transaction));
-    }
-
     private long sumByAccount(Account account) {
         return transactionItemRepository.findSumAmountByDestAccount(account).orElse(0L)
                 - transactionItemRepository.findSumAmountBySrcAccount(account).orElse(0L);
+    }
+
+    private long calculateFee(Long amount, TransactionType type, Account account) {
+        return transactionFeeRepository.findByTypeAndAccount(type, account)
+                .map(fee -> amount * fee.getRate().longValue()).orElse(0L);
     }
 }

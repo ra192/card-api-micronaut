@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 public class CardService {
     private static final Logger logger = LoggerFactory.getLogger(CardService.class);
 
-    private static final Long CARD_ACCOUNT_ID = 1L;
-    private static final Long FEE_ACCOUNT_ID = 2L;
+    private static final Long CARD_ACCOUNT_ID = 2L;
+    private static final Long FEE_ACCOUNT_ID = 3L;
 
     private final CardRepository cardRepository;
     private final AccountService accountService;
@@ -48,7 +48,7 @@ public class CardService {
         return cardRepository.findById(id).orElseThrow(() -> new CardException("Card does not exist"));
     }
 
-    public Transaction withdraw(Card card, Long amount, String orderId) throws AccountException {
+    public Transaction withdraw(Card card, Long amount, String orderId) throws AccountException, TransactionException {
         return transactionService.deposit(accountService.findActiveById(CARD_ACCOUNT_ID), card.getAccount(),
                 accountService.findActiveById(FEE_ACCOUNT_ID), amount,
                 TransactionType.VIRTUAL_CARD_WITHDRAW, orderId, card);
