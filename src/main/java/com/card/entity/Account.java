@@ -25,6 +25,8 @@ public class Account {
     @Relation(value = Relation.Kind.MANY_TO_ONE)
     private Merchant merchant;
 
+    private Long balance;
+
     public Long getId() {
         return id;
     }
@@ -63,5 +65,13 @@ public class Account {
 
     public void setMerchant(Merchant merchant) {
         this.merchant = merchant;
+    }
+
+    public Long getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Long balance) {
+        this.balance = balance;
     }
 }

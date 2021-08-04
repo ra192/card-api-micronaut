@@ -2,10 +2,10 @@ package com.card.controller;
 
 import com.card.dto.FundAccountDto;
 import com.card.dto.TransactionDto;
-import com.card.entity.Transaction;
 import com.card.service.AccountService;
 import com.card.service.MerchantService;
 import com.card.service.TokenService;
+import com.card.service.TransactionService;
 import com.card.service.exception.AccountException;
 import com.card.service.exception.MerchantException;
 import com.card.service.exception.TokenException;
@@ -25,10 +25,12 @@ public class AccountController extends WithAuthMerchantController {
     private static final Long INTERNAL_MERCHANT_ID = 1L;
 
     private final AccountService accountService;
+    private final TransactionService transactionService;
 
-    public AccountController(MerchantService merchantService, TokenService tokenService, AccountService accountService) {
+    public AccountController(MerchantService merchantService, TokenService tokenService, AccountService accountService, TransactionService transactionService) {
         super(merchantService, tokenService);
         this.accountService = accountService;
+        this.transactionService = transactionService;
     }
 
     @Post("/fund")
@@ -39,7 +41,7 @@ public class AccountController extends WithAuthMerchantController {
         final var merchant = validateToken(authorization);
         if (!merchant.getId().equals(INTERNAL_MERCHANT_ID)) throw new MerchantException("Internal merchant required");
 
-        final var transaction = accountService.fund(accountService.findActiveById(requestObject.getAccountId()), requestObject.getAmount(), requestObject.getOrderId());
+        final var transaction = transactionService.fund(accountService.findActiveById(requestObject.getAccountId()), requestObject.getAmount(), requestObject.getOrderId());
 
         return new TransactionDto(transaction.getId(), transaction.getStatus());
     }
