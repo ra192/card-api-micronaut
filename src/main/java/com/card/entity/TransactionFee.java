@@ -9,7 +9,7 @@ import io.micronaut.data.annotation.Relation;
 @MappedEntity
 public class TransactionFee {
     @Id
-    @GeneratedValue(ref = "transaction_fee_seq", value = GeneratedValue.Type.SEQUENCE)
+    @GeneratedValue(value = GeneratedValue.Type.SEQUENCE)
     private Long id;
 
     private TransactionType type;

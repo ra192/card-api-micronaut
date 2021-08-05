@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @MappedEntity
 public class Card {
     @Id
-    @GeneratedValue(ref = "card_seq", value = GeneratedValue.Type.SEQUENCE)
+    @GeneratedValue(value = GeneratedValue.Type.SEQUENCE)
     private Long id;
 
     @NotNull

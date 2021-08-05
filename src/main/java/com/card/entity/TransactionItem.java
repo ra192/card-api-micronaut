@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @MappedEntity
 public class TransactionItem {
     @Id
-    @GeneratedValue(ref = "transaction_item_seq", value = GeneratedValue.Type.SEQUENCE)
+    @GeneratedValue(value = GeneratedValue.Type.SEQUENCE)
     private Long id;
 
     private Long amount;
