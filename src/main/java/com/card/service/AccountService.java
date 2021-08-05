@@ -19,7 +19,7 @@ public class AccountService {
                 .orElseThrow(() -> new AccountException("Account does not exist"));
     }
 
-    protected void save(Account account) {
-        accountRepository.save(account);
+    protected void update(Account account) {
+        accountRepository.update(account);
     }
 }

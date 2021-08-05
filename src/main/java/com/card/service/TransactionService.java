@@ -59,6 +59,8 @@ public class TransactionService {
         updateBalance(cashAccount,-amount);
         updateBalance(account,amount);
 
+        log.info("{} transaction was created", TransactionType.FUND);
+
         return transaction;
     }
 
@@ -95,6 +97,6 @@ public class TransactionService {
 
     private void updateBalance(Account account, Long balance) {
         account.setBalance(account.getBalance() + balance);
-        accountService.save(account);
+        accountService.update(account);
     }
 }
