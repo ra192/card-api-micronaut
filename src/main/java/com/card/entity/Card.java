@@ -14,21 +14,13 @@ public class Card {
     @Id
     @GeneratedValue(value = GeneratedValue.Type.SEQUENCE)
     private Long id;
-
-    @NotNull
     private String providerReferenceId;
-
     private CardType type;
-
     @Relation(value = Relation.Kind.MANY_TO_ONE)
     private Customer customer;
-
     @Relation(value = Relation.Kind.MANY_TO_ONE)
     private Account account;
-
-    @NotNull
     private LocalDateTime created;
-
     private String info;
 
     public Card() {
@@ -38,6 +30,9 @@ public class Card {
         this.type = type;
         this.customer = customer;
         this.account = account;
+        this.created=LocalDateTime.now();
+        this.providerReferenceId="xxxx";
+        this.info="xxxx";
     }
 
     public Long getId() {

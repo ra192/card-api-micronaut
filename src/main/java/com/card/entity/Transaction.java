@@ -15,13 +15,9 @@ public class Transaction {
     @Id
     @GeneratedValue(value = GeneratedValue.Type.SEQUENCE)
     private Long id;
-
     private String orderId;
-
     private TransactionType type;
-
     private TransactionStatus status;
-
     @Relation(value = Relation.Kind.ONE_TO_MANY, mappedBy = "transaction")
     private List<TransactionItem>items;
 

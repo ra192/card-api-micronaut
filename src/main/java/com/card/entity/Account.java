@@ -12,19 +12,10 @@ public class Account {
     @Id
     @GeneratedValue(value = GeneratedValue.Type.SEQUENCE)
     private Long id;
-
-    @NotNull
     private String name;
-
-    @NotNull
     private Boolean active;
-
-    @NotNull
     private String currency;
-
-    @Relation(value = Relation.Kind.MANY_TO_ONE)
     private Merchant merchant;
-
     private Long balance;
 
     public Long getId() {

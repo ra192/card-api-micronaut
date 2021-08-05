@@ -11,11 +11,7 @@ public class Merchant {
     @Id
     @GeneratedValue(value = GeneratedValue.Type.SEQUENCE)
     private Long id;
-
-    @NotNull
     private String name;
-
-    @NotNull
     private String secret;
 
     public Long getId() {

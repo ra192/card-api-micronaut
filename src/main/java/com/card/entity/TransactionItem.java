@@ -12,19 +12,13 @@ public class TransactionItem {
     @Id
     @GeneratedValue(value = GeneratedValue.Type.SEQUENCE)
     private Long id;
-
     private Long amount;
-
     @Relation(value = Relation.Kind.MANY_TO_ONE)
     private Account srcAccount;
-
     @Relation(value = Relation.Kind.MANY_TO_ONE)
     private Account destAccount;
-
     private LocalDateTime created;
-
     private Card card;
-
     @Relation(value = Relation.Kind.MANY_TO_ONE)
     private Transaction transaction;
 

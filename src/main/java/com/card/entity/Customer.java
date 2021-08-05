@@ -5,7 +5,6 @@ import io.micronaut.data.annotation.Id;
 import io.micronaut.data.annotation.MappedEntity;
 import io.micronaut.data.annotation.Relation;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @MappedEntity
@@ -13,41 +12,18 @@ public class Customer {
     @Id
     @GeneratedValue(value = GeneratedValue.Type.SEQUENCE)
     private Long id;
-
-    @NotNull
     private String phone;
-
     private String email;
-
-    @NotNull
     private Boolean active;
-
-    @NotNull
     private String firstName;
-
-    @NotNull
     private String lastName;
-
-    @NotNull
     private LocalDate birthDate;
-
-    @NotNull
     private String address;
-
     private String address2;
-
-    @NotNull
     private String city;
-
-    @NotNull
     private String stateRegion;
-
-    @NotNull
     private String country;
-
-    @NotNull
     private String postalCode;
-
     @Relation(value = Relation.Kind.MANY_TO_ONE)
     private Merchant merchant;
 

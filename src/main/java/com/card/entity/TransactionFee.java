@@ -11,12 +11,9 @@ public class TransactionFee {
     @Id
     @GeneratedValue(value = GeneratedValue.Type.SEQUENCE)
     private Long id;
-
     private TransactionType type;
-
     @Relation(value = Relation.Kind.MANY_TO_ONE)
     private Account account;
-
     private Float rate;
 
     public Long getId() {
