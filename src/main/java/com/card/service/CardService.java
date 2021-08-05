@@ -39,7 +39,8 @@ public class CardService {
     }
 
     public Transaction deposit(Card card, Long amount, String orderId) throws TransactionException, AccountException {
-        return transactionService.withdraw(card.getAccount(), accountService.findActiveById(CARD_ACCOUNT_ID),
+        return transactionService.withdraw(accountService.findActiveById(card.getAccount().getId()),
+                accountService.findActiveById(CARD_ACCOUNT_ID),
                 accountService.findActiveById(FEE_ACCOUNT_ID), amount,
                 TransactionType.VIRTUAL_CARD_DEPOSIT, orderId, card);
     }
@@ -49,7 +50,8 @@ public class CardService {
     }
 
     public Transaction withdraw(Card card, Long amount, String orderId) throws AccountException, TransactionException {
-        return transactionService.deposit(accountService.findActiveById(CARD_ACCOUNT_ID), card.getAccount(),
+        return transactionService.deposit(accountService.findActiveById(CARD_ACCOUNT_ID),
+                accountService.findActiveById(card.getAccount().getId()),
                 accountService.findActiveById(FEE_ACCOUNT_ID), amount,
                 TransactionType.VIRTUAL_CARD_WITHDRAW, orderId, card);
     }
