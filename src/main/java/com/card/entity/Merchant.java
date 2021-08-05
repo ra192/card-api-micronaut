@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @MappedEntity
 public class Merchant {
     @Id
-    @GeneratedValue(ref = "merchant_id_seq", value = GeneratedValue.Type.SEQUENCE)
+    @GeneratedValue(ref = "merchant_seq", value = GeneratedValue.Type.SEQUENCE)
     private Long id;
 
     @NotNull

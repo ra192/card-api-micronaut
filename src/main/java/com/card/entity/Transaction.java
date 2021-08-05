@@ -13,7 +13,7 @@ import java.util.List;
 @MappedEntity
 public class Transaction {
     @Id
-    @GeneratedValue(ref = "transaction_id_seq", value = GeneratedValue.Type.SEQUENCE)
+    @GeneratedValue(ref = "transaction_seq", value = GeneratedValue.Type.SEQUENCE)
     private Long id;
 
     private String orderId;
