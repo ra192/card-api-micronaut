@@ -53,7 +53,13 @@ public class TransactionService {
     }
 
     public Transaction fund(Account account, Long amount, String orderId) throws AccountException {
-        return createTransaction(accountService.findActiveById(CASH_ACCOUNT_ID), account, amount, TransactionType.FUND, orderId, null);
+        final var cashAccount = accountService.findActiveById(CASH_ACCOUNT_ID);
+        final var transaction = createTransaction(cashAccount, account, amount, TransactionType.FUND, orderId, null);
+
+        updateBalance(cashAccount,-amount);
+        updateBalance(account,amount);
+
+        return transaction;
     }
 
     public Transaction withdraw(Account srcAccount, Account destAccount, Account feeAccount, Long amount, TransactionType type, String orderId, Card card) throws TransactionException {
