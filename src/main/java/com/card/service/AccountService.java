@@ -18,8 +18,4 @@ public class AccountService {
         return accountRepository.findByIdAndActive(id, true)
                 .orElseThrow(() -> new AccountException("Account does not exist"));
     }
-
-    protected void update(Account account) {
-        accountRepository.update(account);
-    }
 }

@@ -16,7 +16,6 @@ public class Account {
     private Boolean active;
     private String currency;
     private Merchant merchant;
-    private Long balance;
 
     public Long getId() {
         return id;
@@ -56,13 +55,5 @@ public class Account {
 
     public void setMerchant(Merchant merchant) {
         this.merchant = merchant;
-    }
-
-    public Long getBalance() {
-        return balance;
-    }
-
-    public void setBalance(Long balance) {
-        this.balance = balance;
     }
 }

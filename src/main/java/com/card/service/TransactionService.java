@@ -36,16 +36,12 @@ public class TransactionService {
 
     public Transaction deposit(Account srcAccount, Account destAccount, Account feeAccount, Long amount, TransactionType type, String orderId, Card card) throws TransactionException {
         final var feeAmount = calculateFee(amount, type, destAccount);
-        if (srcAccount.getBalance() - amount < 0)
+        if (sumByAccount(srcAccount) - amount < 0)
             throw new TransactionException("Account does not have enough funds");
 
         final var transaction = createTransaction(srcAccount, destAccount, amount, type, orderId, card);
         if (feeAmount > 0)
             transactionItemRepository.save(new TransactionItem(amount, destAccount, feeAccount, null, transaction));
-
-        updateBalance(srcAccount,-amount);
-        updateBalance(destAccount,amount-feeAmount);
-        if(feeAmount >0) updateBalance(feeAccount,feeAmount);
 
         log.info("{} transaction was created", type);
 
@@ -56,9 +52,6 @@ public class TransactionService {
         final var cashAccount = accountService.findActiveById(CASH_ACCOUNT_ID);
         final var transaction = createTransaction(cashAccount, account, amount, TransactionType.FUND, orderId, null);
 
-        updateBalance(cashAccount,-amount);
-        updateBalance(account,amount);
-
         log.info("{} transaction was created", TransactionType.FUND);
 
         return transaction;
@@ -66,16 +59,12 @@ public class TransactionService {
 
     public Transaction withdraw(Account srcAccount, Account destAccount, Account feeAccount, Long amount, TransactionType type, String orderId, Card card) throws TransactionException {
         final var feeAmount = calculateFee(amount, type, srcAccount);
-        if (srcAccount.getBalance() - amount - feeAmount < 0)
+        if (sumByAccount(srcAccount) - amount - feeAmount < 0)
             throw new TransactionException("Account does not have enough funds");
 
         final var transaction = createTransaction(srcAccount, destAccount, amount, type, orderId, card);
         if (feeAmount > 0)
             transactionItemRepository.save(new TransactionItem(amount, srcAccount, feeAccount, null, transaction));
-
-        updateBalance(srcAccount,-amount-feeAmount);
-        updateBalance(destAccount,amount);
-        if(feeAmount >0) updateBalance(feeAccount,feeAmount);
 
         log.info("{} transaction was created", type);
 
@@ -95,8 +84,8 @@ public class TransactionService {
                 .map(fee -> amount * fee.getRate().longValue()).orElse(0L);
     }
 
-    private void updateBalance(Account account, Long balance) {
-        account.setBalance(account.getBalance() + balance);
-        accountService.update(account);
+    private Long sumByAccount(Account account) {
+        return transactionItemRepository.findSumAmountByDestAccount(account).map(Number::longValue).orElse(0L)
+                - transactionItemRepository.findSumAmountBySrcAccount(account).map(Number::longValue).orElse(0L);
     }
 }
