@@ -1,6 +1,14 @@
 micronaut:
   application:
     name: cardApiMicronaut
+
+  ssl:
+    enabled: true
+    keyStore:
+      path: classpath:keystore.p12
+      password: password
+      type: PKCS12
+
 datasources:
   default:
     url: jdbc:postgresql://localhost:5432/card-api-micronaut
