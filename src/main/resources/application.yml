@@ -8,7 +8,7 @@ micronaut:
       path: classpath:keystore.p12
       password: password
       type: PKCS12
-    port: 443
+    port: 8443
 
 datasources:
   default:
